@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EV Battery Swap Quiz</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="shortcut icon" href="./assets/images/favicon.png" type="image/x-icon">
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+
+    <style>
+        body {
+            background-color: #18181B;
+            color: #F4FE85;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .navbar {
+            background-color: #1F1F23;
+            padding: 15px 30px;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            color: #00FF94;
+            font-size: 1.5rem;
+        }
+
+        .navbar-nav .nav-link {
+            color: #F4FE85;
+            margin-left: 15px;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #00FF94;
+            text-shadow: 0 0 5px #00FF94;
+        }
+
+        .quiz-container {
+            background-color: #1F1F23;
+            border-radius: 10px;
+            padding: 30px;
+            margin-top: 50px;
+            box-shadow: 0 0 15px rgba(0, 255, 148, 0.1);
+        }
+
+        .question {
+            margin-bottom: 25px;
+        }
+
+        .question h5 {
+            color: #00FF94;
+            margin-bottom: 15px;
+        }
+
+        .form-check {
+            margin-bottom: 15px;
+        }
+
+        /* Enhanced MCQ UI */
+        .form-check-input {
+            display: none;
+        }
+
+        .form-check-label {
+            display: block;
+            width: 100%;
+            padding: 12px 16px;
+            background-color: #2A2B2F;
+            border-radius: 8px;
+            border: 1px solid transparent;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            color: #F4FE85;
+        }
+
+        .form-check-label:hover {
+            background-color: #35363B;
+            cursor: pointer;
+        }
+
+        .form-check-input:checked+.form-check-label {
+            background-color: #00FF94;
+            color: #18181B;
+            border-color: #00FF94;
+            box-shadow: 0 0 10px #00FF94;
+        }
+
+        .btn-submit {
+            background-color: #00FF94;
+            color: #18181B;
+            font-weight: bold;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 1.2rem;
+        }
+
+        #chart-container {
+            margin-top: 40px;
+            background-color: #2A2B2F;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0, 255, 148, 0.3);
+            max-width: 50%;
+            /* 30% smaller */
+            margin-left: auto;
+            margin-right: auto;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        #chart-container:hover {
+            transform: scale(1.05);
+        }
+
+        canvas#resultChart {
+            max-width: 100%;
+        }
+
+
+        #timer {
+            position: fixed;
+            bottom: 20px;
+            right: 30px;
+            background-color: #2A2B2F;
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-weight: bold;
+            color: #00FF94;
+            box-shadow: 0 0 10px rgba(0, 255, 148, 0.15);
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <a class="navbar-brand" href="#">EV Quiz</a>
+        <div class="collapse navbar-collapse justify-content-end">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="#resultChart"
+                        onclick="document.getElementById('quizForm').requestSubmit();">Submit</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container quiz-container">
+        <h2 class="text-center mb-4">EV Battery Swapping Quiz</h2>
+        <form id="quizForm">
+            <div id="quizContent"></div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-submit mt-4"
+                    onclick="document.getElementById('resultChart').scrollIntoView({behavior: 'smooth'})">Submit</button>
+            </div>
+            <div id="result" class="result text-center mt-4"></div>
+        </form>
+        <div id="chart-container" class="d-none">
+            <canvas id="resultChart"></canvas>
+        </div>
+    </div>
+
+    <div id="timer">5:00</div>
+
+    <script>
+        const questions = [
+            { q: "What does EV stand for?", options: ["Electric Vehicle", "Energy Vehicle", "Electronic Van", "Engine Vehicle"], answer: 0 },
+            { q: "What is the primary benefit of battery swapping?", options: ["More horsepower", "Faster recharge", "Better GPS", "Lower insurance"], answer: 1 },
+            { q: "Which component is typically replaced in battery swapping?", options: ["Charger", "Engine", "Battery Pack", "Transmission"], answer: 2 },
+            { q: "Battery swapping stations use what technology to swap batteries?", options: ["Manual labor", "AI robots", "Hydraulics", "Cranes"], answer: 1 },
+            { q: "Battery swapping is beneficial to which type of user the most?", options: ["Heavy-duty transport", "Occasional drivers", "Gamers", "Farmers"], answer: 0 },
+            { q: "How long does a typical battery swap take?", options: ["30 minutes", "1 hour", "5 minutes", "10 seconds"], answer: 2 },
+            { q: "Which of the following is a challenge in battery swapping?", options: ["High fuel cost", "Standardization", "Color coding", "WiFi speed"], answer: 1 },
+            { q: "Battery swapping enhances EV efficiency by?", options: ["Increasing weight", "Reducing speed", "Avoiding long charges", "Disabling software"], answer: 2 },
+            { q: "Which of these countries leads in battery swapping infrastructure?", options: ["USA", "China", "India", "Germany"], answer: 1 },
+            { q: "What does BMS stand for in battery tech?", options: ["Battery Main Setup", "Battery Monitoring Service", "Battery Management System", "Basic Module Service"], answer: 2 }
+        ];
+
+        const quizContainer = document.getElementById('quizContent');
+
+        questions.forEach((item, index) => {
+            const qBlock = document.createElement('div');
+            qBlock.classList.add('question');
+            const qTitle = document.createElement('h5');
+            qTitle.textContent = `${index + 1}. ${item.q}`;
+            qBlock.appendChild(qTitle);
+
+            item.options.forEach((option, optIndex) => {
+                const optWrapper = document.createElement('div');
+                optWrapper.classList.add('form-check');
+
+                const optInput = document.createElement('input');
+                optInput.type = 'radio';
+                optInput.className = 'form-check-input';
+                optInput.name = `question${index}`;
+                optInput.value = optIndex;
+                optInput.id = `q${index}_opt${optIndex}`;
+
+                const optLabel = document.createElement('label');
+                optLabel.className = 'form-check-label';
+                optLabel.setAttribute('for', optInput.id);
+                optLabel.textContent = option;
+
+                optWrapper.appendChild(optInput);
+                optWrapper.appendChild(optLabel);
+                qBlock.appendChild(optWrapper);
+            });
+            quizContainer.appendChild(qBlock);
+        });
+
+        document.getElementById('quizForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            let score = 0;
+            let incorrect = 0;
+
+            questions.forEach((q, index) => {
+                const selected = document.querySelector(`input[name="question${index}"]:checked`);
+                if (selected && parseInt(selected.value) === q.answer) {
+                    score++;
+                } else {
+                    incorrect++;
+                }
+            });
+
+            document.getElementById('result').innerHTML =
+                `<strong>You scored ${score} out of ${questions.length}</strong>`;
+
+            document.getElementById('chart-container').classList.remove('d-none');
+
+            const ctx = document.getElementById('resultChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Correct', 'Incorrect'],
+                    datasets: [{
+                        data: [score, incorrect],
+                        backgroundColor: ['#00FF94', '#FF4B4B'],
+                        borderColor: '#18181B',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#F4FE85',
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                }
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Quiz Performance',
+                            color: '#00FF94',
+                            font: {
+                                size: 18,
+                                family: 'Orbitron, sans-serif',
+                                weight: 'bold'
+                            }
+                        },
+                        datalabels: {
+                            color: '#18181B',
+                            font: {
+                                weight: 'bold',
+                                size: 16
+                            },
+                            formatter: (value, context) => {
+                                const total = context.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                                const percentage = ((value / total) * 100).toFixed(1);
+                                return `${percentage}%`;
+                            }
+                        }
+                    }
+                },
+                plugins: [ChartDataLabels]
+            });
+
+        });
+
+        // Timer logic
+        let timerDisplay = document.getElementById("timer");
+        let timeLeft = 5 * 60;
+
+        const timer = setInterval(() => {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerDisplay.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                document.getElementById('quizForm').requestSubmit();
+            }
+            timeLeft--;
+        }, 1000);
+    </script>
+</body>
+
+</html>

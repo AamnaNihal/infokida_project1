@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Study Page - EV Battery Swap</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <link rel="shortcut icon" href="./assets/images/favicon.png" type="image/x-icon">
+    <style>
+        body {
+            background-color: #18181B;
+            color: #F4FE85;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .navbar {
+            background-color: #1F1F23;
+            padding: 1rem 2rem;
+        }
+
+        .navbar-brand,
+        .nav-link {
+            color: #00FF94 !important;
+        }
+
+        h2.section-title {
+            color: #00FF94;
+            border-left: 4px solid #00FF94;
+            padding-left: 10px;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .card {
+            background-color: #2A2B2F;
+            color: #F4FE85;
+            border: none;
+            box-shadow: 0 0 12px rgba(0, 255, 148, 0.1);
+        }
+
+        .card:hover {
+            box-shadow: 0 0 20px rgba(0, 255, 148, 0.2);
+        }
+
+        .accordion-button {
+            background-color: #2A2B2F;
+            color: #F4FE85;
+        }
+
+        .accordion-button:focus {
+            box-shadow: none;
+        }
+
+        .comparison-table td,
+        .comparison-table th {
+            border: 1px solid #F4FE85;
+        }
+
+        .comparison-table th {
+            background-color: #00FF94;
+            color: #18181B;
+        }
+    </style>
+</head>
+
+<body style="margin:0; padding:0; font-family: 'Segoe UI', sans-serif; background-color: #18181B; color: #F4FE85;">
+    <nav class="navbar navbar-expand-lg sticky-top" style="background-color: #1F1F23; padding: 15px 30px;">
+        <a class="navbar-brand text-success" href="#">EV Study Hub</a>
+        <div class="collapse navbar-collapse justify-content-end">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link text-warning" href="#overview">Overview</a></li>
+                <li class="nav-item"><a class="nav-link text-warning" href="#components">Components</a></li>
+                <li class="nav-item"><a class="nav-link text-warning" href="#process">Swapping Process</a></li>
+                <li class="nav-item"><a class="nav-link text-warning" href="#videos">Videos</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container py-5">
+        <section id="overview" class="mb-5">
+            <h2 class="text-success">EV Battery Swapping: An Overview</h2>
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p>Electric Vehicle battery swapping is a fast and efficient method for recharging EVs by exchanging
+                        depleted battery packs for fully charged ones. This reduces downtime, removes the need for long
+                        charging infrastructure, and boosts fleet management for commercial EV operators.</p>
+                    <p>This technology plays a key role in the acceleration of EV adoption in urban logistics, cab
+                        services, and shared mobility. The primary idea is to remove the user's dependency on battery
+                        ownership and charge time, transitioning instead to a service-based battery supply model.</p>
+                    <p>By decoupling battery ownership from the vehicle, consumers benefit from lower upfront costs,
+                        enhanced battery performance via centralized maintenance, and access to the latest battery
+                        technology without changing their vehicle. Swapping stations also offer grid load balancing
+                        potential when integrated with renewable energy sources and smart grid systems.</p>
+                    <p>Countries like China and India are pioneering large-scale battery swapping infrastructures due to
+                        the immense benefits in two-wheeler and commercial EV segments. The modularity of batteries
+                        ensures that scaling operations is feasible while maintaining cost-efficiency.</p>
+                </div>
+                <div class="col-md-6">
+                    <img src="assets/images/evswapp.png" class="img-fluid rounded my-3" alt="EV Battery Swap Diagram">
+                </div>
+            </div>
+        </section>
+
+        <section id="components" class="mb-5">
+            <h3 class="text-success">Key Components Involved</h3>
+            <div class="accordion" id="componentAccordion">
+                <div class="accordion-item bg-dark border-success">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button collapsed bg-dark text-light" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#component1">
+                            Swappable Battery Modules
+                        </button>
+                    </h2>
+                    <div id="component1" class="accordion-collapse collapse" data-bs-parent="#componentAccordion">
+                        <div class="accordion-body text-light">
+                            High-energy, standardized battery packs designed for quick insertion and removal with safety
+                            protocols.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item bg-dark border-success">
+                    <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button collapsed bg-dark text-light" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#component2">
+                            Swapping Station Mechanism
+                        </button>
+                    </h2>
+                    <div id="component2" class="accordion-collapse collapse" data-bs-parent="#componentAccordion">
+                        <div class="accordion-body text-light">
+                            Includes robotic arms or lift-assisted mounts that remove and install batteries securely
+                            with minimal human interaction.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item bg-dark border-success">
+                    <h2 class="accordion-header" id="headingThree">
+                        <button class="accordion-button collapsed bg-dark text-light" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#component3">
+                            Battery Management System (BMS)
+                        </button>
+                    </h2>
+                    <div id="component3" class="accordion-collapse collapse" data-bs-parent="#componentAccordion">
+                        <div class="accordion-body text-light">
+                            BMS ensures real-time monitoring of temperature, charge levels, safety cutoffs, and data
+                            communication with the EV.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="process" class="mb-5">
+            <h3 class="text-success">Battery Swapping Process</h3>
+            <p>The general battery swapping process includes:</p>
+            <ol>
+                <li>Drive into a designated swapping station</li>
+                <li>Vehicle authenticates and aligns for battery removal</li>
+                <li>Automated arm removes depleted battery</li>
+                <li>New fully-charged battery is installed</li>
+                <li>Vehicle performs self-check and exits</li>
+            </ol>
+
+            <video style="width: 50%;" class="img-fluid rounded my-3" controls>
+                <source src="assets/videos/swappro.mp4" type="video/mp4">
+            </video>
+
+
+            <table class="table table-bordered table-dark mt-4">
+                <thead>
+                    <tr>
+                        <th>Advantages</th>
+                        <th>Limitations</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Faster turnaround time</td>
+                        <td>Standardization of battery form factor needed</td>
+                    </tr>
+                    <tr>
+                        <td>Ideal for commercial fleets and taxis</td>
+                        <td>Initial infrastructure investment is high</td>
+                    </tr>
+                    <tr>
+                        <td>Reduces EV cost by decoupling battery ownership</td>
+                        <td>Battery availability may limit scalability</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="videos" class="mb-5">
+            <h3 class="text-success mb-4">Video Resources</h3>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card bg-dark text-light h-100">
+
+                        <iframe height="100%"
+                            src="https://www.youtube.com/embed/fG8_QUD6PdE?si=31l50w7_kKOUnnHj&amp;controls=0"
+                            title="Inside NIO Power Battery Swap Station" class="card-img-top" frameborder="0"
+                            allowfullscreen></iframe>
+
+                        <div class="card-body">
+                            <h5 class="card-title">Inside NIO Power Swap</h5>
+                            <p class="card-text">Take a tour inside NIO’s automated EV battery swapping system —
+                                futuristic and fast.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card bg-dark text-light h-100">
+                        <iframe height="100%"
+                            src="https://www.youtube.com/embed/wk5zXK6wFWI?si=xkON7eBuic-Thwn0&amp;controls=0"
+                            title="Battery Swapping Explained" class="card-img-top" frameborder="0"
+                            allowfullscreen></iframe>
+                        <div class="card-body">
+                            <h5 class="card-title">Battery Swapping Explained</h5>
+                            <p class="card-text">A technical explanation of battery swapping and why it might be the
+                                future of EV charging.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card bg-dark text-light h-100">
+                        <iframe height="200" src="https://www.youtube.com/embed/AF3gCTyD-wM?si=4S00aUWGJJgC-Qoo&amp;controls=0"
+                            title="EV Battery Swap Demo - India" class="card-img-top" frameborder="0"
+                            allowfullscreen></iframe>
+
+                        <div class="card-body">
+                            <h5 class="card-title">Battery Swap in India</h5>
+                            <p class="card-text">See how Indian startups are implementing battery swapping models at
+                                scale.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+</body>
+
+
+
+</html>
